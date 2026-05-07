@@ -1,0 +1,321 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "fullName": "ElectroCorp User",
+      "email": "jean@example.com",
+      "password": "123456",
+      "status": "ACTIVE"
+    },
+    {
+      "id": 2,
+      "fullName": "Jean Franck Loa Rojas",
+      "email": "loarojas1@gmail.com",
+      "password": "123456",
+      "status": "ACTIVE"
+    }
+  ],
+  "accessProfiles": [
+    {
+      "id": 1,
+      "name": "OWNER",
+      "permissions": [
+        "MANAGE_DEVICES",
+        "MANAGE_ROUTINES",
+        "VIEW_ANALYTICS",
+        "EXPORT_REPORTS",
+        "MANAGE_BILLING",
+        "MANAGE_ALERTS"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ADMIN",
+      "permissions": [
+        "MANAGE_DEVICES",
+        "MANAGE_ROUTINES",
+        "VIEW_ANALYTICS",
+        "MANAGE_ALERTS"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "STAFF",
+      "permissions": [
+        "VIEW_DEVICES",
+        "VIEW_ANALYTICS",
+        "VIEW_ALERTS"
+      ]
+    }
+  ],
+  "devices": [
+    {
+      "id": 1,
+      "name": "Smart plug - Living room",
+      "room": "Living room",
+      "type": "SMART_PLUG",
+      "status": "ON",
+      "powerWatts": 120
+    },
+    {
+      "id": 2,
+      "name": "Main light switch",
+      "room": "Kitchen",
+      "type": "SMART_SWITCH",
+      "status": "OFF",
+      "powerWatts": 60
+    },
+    {
+      "id": 3,
+      "name": "Desk lamp",
+      "room": "Bedroom",
+      "type": "LIGHT",
+      "status": "ON",
+      "powerWatts": 35
+    },
+    {
+      "id": 4,
+      "name": "Office air purifier",
+      "room": "Office",
+      "type": "SMART_PLUG",
+      "status": "ON",
+      "powerWatts": 85
+    },
+    {
+      "id": 5,
+      "name": "Hallway smart bulb",
+      "room": "Hallway",
+      "type": "LIGHT",
+      "status": "OFF",
+      "powerWatts": 18
+    },
+    {
+      "id": 6,
+      "name": "Coffee machine plug",
+      "room": "Kitchen",
+      "type": "SMART_PLUG",
+      "status": "OFF",
+      "powerWatts": 900
+    },
+    {
+      "id": 7,
+      "name": "Meeting room lights",
+      "room": "Meeting Room",
+      "type": "SMART_SWITCH",
+      "status": "ON",
+      "powerWatts": 110
+    },
+    {
+      "id": 8,
+      "name": "Router backup plug",
+      "room": "Office",
+      "type": "SMART_PLUG",
+      "status": "ON",
+      "powerWatts": 45
+    }
+  ],
+  "routines": [
+    {
+      "id": 1,
+      "name": "Turn off living room at night",
+      "deviceId": 1,
+      "action": "TURN_OFF",
+      "scheduledTime": "23:00",
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "name": "Turn on desk lamp",
+      "deviceId": 3,
+      "action": "TURN_ON",
+      "scheduledTime": "19:00",
+      "enabled": true
+    },
+    {
+      "id": 3,
+      "name": "Turn off meeting room lights",
+      "deviceId": 7,
+      "action": "TURN_OFF",
+      "scheduledTime": "21:30",
+      "enabled": true
+    },
+    {
+      "id": 4,
+      "name": "Turn on office purifier",
+      "deviceId": 4,
+      "action": "TURN_ON",
+      "scheduledTime": "08:00",
+      "enabled": true
+    },
+    {
+      "id": 5,
+      "name": "Turn off router backup plug",
+      "deviceId": 8,
+      "action": "TURN_OFF",
+      "scheduledTime": "02:00",
+      "enabled": false
+    }
+  ],
+  "energyReadings": [
+    {
+      "id": 1,
+      "deviceName": "Smart plug - Living room",
+      "watts": 120,
+      "recordedAt": "2026-05-01"
+    },
+    {
+      "id": 2,
+      "deviceName": "Main light switch",
+      "watts": 60,
+      "recordedAt": "2026-05-02"
+    },
+    {
+      "id": 3,
+      "deviceName": "Desk lamp",
+      "watts": 35,
+      "recordedAt": "2026-05-03"
+    },
+    {
+      "id": 4,
+      "deviceName": "Smart plug - Living room",
+      "watts": 145,
+      "recordedAt": "2026-05-04"
+    },
+    {
+      "id": 5,
+      "deviceName": "Desk lamp",
+      "watts": 50,
+      "recordedAt": "2026-05-05"
+    },
+    {
+      "id": 6,
+      "deviceName": "Office air purifier",
+      "watts": 85,
+      "recordedAt": "2026-05-06"
+    },
+    {
+      "id": 7,
+      "deviceName": "Coffee machine plug",
+      "watts": 420,
+      "recordedAt": "2026-05-07"
+    },
+    {
+      "id": 8,
+      "deviceName": "Meeting room lights",
+      "watts": 110,
+      "recordedAt": "2026-05-08"
+    },
+    {
+      "id": 9,
+      "deviceName": "Router backup plug",
+      "watts": 45,
+      "recordedAt": "2026-05-09"
+    },
+    {
+      "id": 10,
+      "deviceName": "Coffee machine plug",
+      "watts": 680,
+      "recordedAt": "2026-05-10"
+    },
+    {
+      "id": 11,
+      "deviceName": "Office air purifier",
+      "watts": 92,
+      "recordedAt": "2026-05-11"
+    },
+    {
+      "id": 12,
+      "deviceName": "Meeting room lights",
+      "watts": 125,
+      "recordedAt": "2026-05-12"
+    }
+  ],
+  "alerts": [
+    {
+      "id": 1,
+      "title": "High consumption detected",
+      "message": "Coffee machine plug reached an unusual consumption peak.",
+      "level": "CRITICAL",
+      "createdAt": "2026-05-10",
+      "read": false
+    },
+    {
+      "id": 2,
+      "title": "Monthly report ready",
+      "message": "Your monthly consumption report is ready to export.",
+      "level": "INFO",
+      "createdAt": "2026-05-09",
+      "read": false
+    },
+    {
+      "id": 3,
+      "title": "Automation suggestion",
+      "message": "You can schedule your desk lamp to turn off after midnight.",
+      "level": "WARNING",
+      "createdAt": "2026-05-08",
+      "read": true
+    },
+    {
+      "id": 4,
+      "title": "Device inactive",
+      "message": "Main light switch has been offline for several hours.",
+      "level": "WARNING",
+      "createdAt": "2026-05-07",
+      "read": false
+    },
+    {
+      "id": 5,
+      "title": "Energy saving tip",
+      "message": "Turning off standby devices may reduce your daily energy usage.",
+      "level": "INFO",
+      "createdAt": "2026-05-06",
+      "read": true
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "code": "STARTER",
+      "name": "Starter",
+      "monthlyPrice": 19,
+      "features": [
+        "Up to 5 smart devices",
+        "Basic energy dashboard",
+        "Email alerts"
+      ]
+    },
+    {
+      "id": 2,
+      "code": "PROFESSIONAL",
+      "name": "Professional",
+      "monthlyPrice": 49,
+      "features": [
+        "Up to 20 smart devices",
+        "Advanced energy analytics",
+        "Automation routines",
+        "Monthly reports"
+      ]
+    },
+    {
+      "id": 3,
+      "code": "ENTERPRISE",
+      "name": "Enterprise",
+      "monthlyPrice": 129,
+      "features": [
+        "Multiple business locations",
+        "Access profiles for staff",
+        "Advanced alerts",
+        "Priority support"
+      ]
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": 1,
+      "planCode": "PROFESSIONAL",
+      "status": "ACTIVE",
+      "startedAt": "2026-05-01",
+      "endsAt": null
+    }
+  ]
+}
