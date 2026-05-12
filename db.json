@@ -514,29 +514,59 @@
     "highestReading": 540,
     "recommendation": "Consumption is stable. Maintain current routines and review standby devices."
   }
-]
+],
   "energyGoals": [
-    {
-      "id": 1,
-      "userId": 1,
-      "title": "Reduce monthly consumption",
-      "targetWatts": 2500,
-      "currentWatts": 2150,
-      "startDate": "2026-05-01",
-      "endDate": "2026-05-31",
-      "status": "IN_PROGRESS"
-    },
-    {
-      "id": 2,
-      "userId": 1,
-      "title": "Keep office consumption under control",
-      "targetWatts": 1000,
-      "currentWatts": 780,
-      "startDate": "2026-05-01",
-      "endDate": "2026-05-31",
-      "status": "IN_PROGRESS"
-    }
-  ],
+  {
+    "id": 1,
+    "userId": 1,
+    "title": "Reduce monthly consumption",
+    "targetWatts": 2500,
+    "currentWatts": 2150,
+    "startDate": "2026-05-01",
+    "endDate": "2026-05-31",
+    "status": "IN_PROGRESS"
+  },
+  {
+    "id": 2,
+    "userId": 1,
+    "title": "Keep office consumption under control",
+    "targetWatts": 1000,
+    "currentWatts": 780,
+    "startDate": "2026-05-01",
+    "endDate": "2026-05-31",
+    "status": "IN_PROGRESS"
+  },
+  {
+    "id": 3,
+    "userId": 2,
+    "title": "Lower peak consumption",
+    "targetWatts": 3000,
+    "currentWatts": 2460,
+    "startDate": "2026-05-01",
+    "endDate": "2026-05-31",
+    "status": "IN_PROGRESS"
+  },
+  {
+    "id": 4,
+    "userId": 2,
+    "title": "Optimize smart routines",
+    "targetWatts": 1800,
+    "currentWatts": 1650,
+    "startDate": "2026-05-10",
+    "endDate": "2026-06-10",
+    "status": "IN_PROGRESS"
+  },
+  {
+    "id": 5,
+    "userId": 2,
+    "title": "Reduce standby consumption",
+    "targetWatts": 1200,
+    "currentWatts": 1200,
+    "startDate": "2026-04-01",
+    "endDate": "2026-04-30",
+    "status": "COMPLETED"
+  }
+],
   "invoices": [
     {
       "id": 1,
@@ -562,25 +592,61 @@
     }
   ],
   "supportTickets": [
-    {
-      "id": 1,
-      "userId": 1,
-      "subject": "Problem with energy readings",
-      "description": "Some readings are not being updated correctly.",
-      "status": "OPEN",
-      "priority": "HIGH",
-      "createdAt": "2026-05-12"
-    },
-    {
-      "id": 2,
-      "userId": 1,
-      "subject": "Question about Professional plan",
-      "description": "User asked about CSV export and advanced analytics.",
-      "status": "RESOLVED",
-      "priority": "MEDIUM",
-      "createdAt": "2026-05-08"
-    }
-  ],
+  {
+    "id": 1,
+    "userId": 1,
+    "subject": "Problem with energy readings",
+    "description": "Some readings are not being updated correctly.",
+    "status": "OPEN",
+    "priority": "HIGH",
+    "createdAt": "2026-05-12"
+  },
+  {
+    "id": 2,
+    "userId": 1,
+    "subject": "Question about Professional plan",
+    "description": "User asked about CSV export and advanced analytics.",
+    "status": "RESOLVED",
+    "priority": "MEDIUM",
+    "createdAt": "2026-05-08"
+  },
+  {
+    "id": 3,
+    "userId": 2,
+    "subject": "No aparece el historial energético",
+    "description": "El historial energético no carga después de activar la suscripción.",
+    "status": "IN_PROGRESS",
+    "priority": "HIGH",
+    "createdAt": "2026-05-14"
+  },
+  {
+    "id": 4,
+    "userId": 2,
+    "subject": "Error al crear rutina automática",
+    "description": "La aplicación muestra un error al intentar programar una rutina para apagar luces.",
+    "status": "OPEN",
+    "priority": "CRITICAL",
+    "createdAt": "2026-05-15"
+  },
+  {
+    "id": 5,
+    "userId": 2,
+    "subject": "Solicitud de información de facturación",
+    "description": "El usuario necesita revisar el estado de sus pagos y facturas recientes.",
+    "status": "CLOSED",
+    "priority": "LOW",
+    "createdAt": "2026-05-05"
+  },
+  {
+    "id": 6,
+    "userId": 1,
+    "subject": "Device assignment issue",
+    "description": "A device assignment does not appear in the workplace dashboard.",
+    "status": "OPEN",
+    "priority": "MEDIUM",
+    "createdAt": "2026-05-16"
+  }
+],
   "maintenanceTickets": [
     {
       "id": 1,
