@@ -378,22 +378,54 @@
     }
   ],
   "deviceAssignments": [
-    {
-      "id": 1,
-      "deviceId": 1,
-      "userId": 1,
-      "locationId": 1,
-      "roomId": 1,
-      "assignedAt": "2026-05-01"
-    },
-    {
-      "id": 2,
-      "deviceId": 6,
-      "userId": 1,
-      "locationId": 1,
-      "roomId": 2,
-      "assignedAt": "2026-05-02"
-    }
+  {
+    "id": 1,
+    "deviceId": 1,
+    "userId": 1,
+    "locationId": 1,
+    "roomId": 1,
+    "assignedAt": "2026-05-01"
+  },
+  {
+    "id": 2,
+    "deviceId": 6,
+    "userId": 1,
+    "locationId": 1,
+    "roomId": 2,
+    "assignedAt": "2026-05-02"
+  },
+  {
+    "id": 3,
+    "deviceId": 3,
+    "userId": 1,
+    "locationId": 2,
+    "roomId": 4,
+    "assignedAt": "2026-05-03"
+  },
+  {
+    "id": 4,
+    "deviceId": 4,
+    "userId": 2,
+    "locationId": 1,
+    "roomId": 3,
+    "assignedAt": "2026-05-04"
+  },
+  {
+    "id": 5,
+    "deviceId": 8,
+    "userId": 2,
+    "locationId": 1,
+    "roomId": 3,
+    "assignedAt": "2026-05-05"
+  },
+  {
+    "id": 6,
+    "deviceId": 9,
+    "userId": 2,
+    "locationId": 2,
+    "roomId": 4,
+    "assignedAt": "2026-05-06"
+  }
   ],
   "alertRules": [
     {
@@ -432,27 +464,57 @@
     }
   ],
   "consumptionReports": [
-    {
-      "id": 1,
-      "userId": 1,
-      "startDate": "2026-05-01",
-      "endDate": "2026-05-15",
-      "totalWatts": 2927,
-      "averageWatts": 195,
-      "highestReading": 1200,
-      "recommendation": "Review high consumption devices and automate shutdown routines."
-    },
-    {
-      "id": 2,
-      "userId": 1,
-      "startDate": "2026-05-16",
-      "endDate": "2026-05-31",
-      "totalWatts": 2150,
-      "averageWatts": 143,
-      "highestReading": 680,
-      "recommendation": "Consumption is moderate. Keep optimizing active routines."
-    }
-  ],
+  {
+    "id": 1,
+    "userId": 1,
+    "startDate": "2026-05-01",
+    "endDate": "2026-05-15",
+    "totalWatts": 2927,
+    "averageWatts": 195,
+    "highestReading": 1200,
+    "recommendation": "Review high consumption devices and automate shutdown routines."
+  },
+  {
+    "id": 2,
+    "userId": 1,
+    "startDate": "2026-05-16",
+    "endDate": "2026-05-31",
+    "totalWatts": 2150,
+    "averageWatts": 143,
+    "highestReading": 680,
+    "recommendation": "Consumption is moderate. Keep optimizing active routines."
+  },
+  {
+    "id": 3,
+    "userId": 2,
+    "startDate": "2026-05-01",
+    "endDate": "2026-05-15",
+    "totalWatts": 3180,
+    "averageWatts": 212,
+    "highestReading": 1250,
+    "recommendation": "Reduce high power usage during peak hours and review automation rules."
+  },
+  {
+    "id": 4,
+    "userId": 2,
+    "startDate": "2026-05-16",
+    "endDate": "2026-05-31",
+    "totalWatts": 2460,
+    "averageWatts": 164,
+    "highestReading": 720,
+    "recommendation": "Energy consumption improved. Continue monitoring office and kitchen devices."
+  },
+  {
+    "id": 5,
+    "userId": 2,
+    "startDate": "2026-06-01",
+    "endDate": "2026-06-15",
+    "totalWatts": 1985,
+    "averageWatts": 132,
+    "highestReading": 540,
+    "recommendation": "Consumption is stable. Maintain current routines and review standby devices."
+  }
+]
   "energyGoals": [
     {
       "id": 1,
