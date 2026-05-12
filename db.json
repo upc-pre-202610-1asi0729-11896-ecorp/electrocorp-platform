@@ -318,5 +318,223 @@
       "endsAt": null
     }
   ],
-  "payments": []
+  "payments": [],
+  "locations": [
+    {
+      "id": 1,
+      "name": "Main Office",
+      "address": "Av. Javier Prado 1234",
+      "city": "Lima",
+      "country": "Peru",
+      "type": "OFFICE"
+    },
+    {
+      "id": 2,
+      "name": "Home Branch",
+      "address": "Av. La Marina 450",
+      "city": "Lima",
+      "country": "Peru",
+      "type": "HOME"
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "locationId": 1,
+      "name": "Living room",
+      "floor": 1
+    },
+    {
+      "id": 2,
+      "locationId": 1,
+      "name": "Kitchen",
+      "floor": 1
+    },
+    {
+      "id": 3,
+      "locationId": 1,
+      "name": "Office",
+      "floor": 2
+    },
+    {
+      "id": 4,
+      "locationId": 2,
+      "name": "Bedroom",
+      "floor": 1
+    }
+  ],
+  "deviceGroups": [
+    {
+      "id": 1,
+      "name": "High consumption devices",
+      "description": "Devices that usually consume more energy.",
+      "deviceIds": [6, 13, 16, 17]
+    },
+    {
+      "id": 2,
+      "name": "Night automation devices",
+      "description": "Devices controlled by night routines.",
+      "deviceIds": [1, 3, 5, 8]
+    }
+  ],
+  "deviceAssignments": [
+    {
+      "id": 1,
+      "deviceId": 1,
+      "userId": 1,
+      "locationId": 1,
+      "roomId": 1,
+      "assignedAt": "2026-05-01"
+    },
+    {
+      "id": 2,
+      "deviceId": 6,
+      "userId": 1,
+      "locationId": 1,
+      "roomId": 2,
+      "assignedAt": "2026-05-02"
+    }
+  ],
+  "alertRules": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "High power usage",
+      "metric": "POWER_WATTS",
+      "threshold": 1000,
+      "level": "CRITICAL",
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "name": "Medium power warning",
+      "metric": "POWER_WATTS",
+      "threshold": 500,
+      "level": "WARNING",
+      "enabled": true
+    }
+  ],
+  "notificationPreferences": [
+    {
+      "id": 1,
+      "userId": 1,
+      "emailEnabled": true,
+      "systemEnabled": true,
+      "minimumLevel": "WARNING"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "emailEnabled": false,
+      "systemEnabled": true,
+      "minimumLevel": "INFO"
+    }
+  ],
+  "consumptionReports": [
+    {
+      "id": 1,
+      "userId": 1,
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-15",
+      "totalWatts": 2927,
+      "averageWatts": 195,
+      "highestReading": 1200,
+      "recommendation": "Review high consumption devices and automate shutdown routines."
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "startDate": "2026-05-16",
+      "endDate": "2026-05-31",
+      "totalWatts": 2150,
+      "averageWatts": 143,
+      "highestReading": 680,
+      "recommendation": "Consumption is moderate. Keep optimizing active routines."
+    }
+  ],
+  "energyGoals": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Reduce monthly consumption",
+      "targetWatts": 2500,
+      "currentWatts": 2150,
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-31",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "title": "Keep office consumption under control",
+      "targetWatts": 1000,
+      "currentWatts": 780,
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-31",
+      "status": "IN_PROGRESS"
+    }
+  ],
+  "invoices": [
+    {
+      "id": 1,
+      "userId": 1,
+      "subscriptionId": 1,
+      "planCode": "PROFESSIONAL",
+      "amount": 49,
+      "currency": "PEN",
+      "issuedAt": "2026-05-01",
+      "dueDate": "2026-05-10",
+      "status": "PAID"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "subscriptionId": 1,
+      "planCode": "PROFESSIONAL",
+      "amount": 49,
+      "currency": "PEN",
+      "issuedAt": "2026-06-01",
+      "dueDate": "2026-06-10",
+      "status": "PENDING"
+    }
+  ],
+  "supportTickets": [
+    {
+      "id": 1,
+      "userId": 1,
+      "subject": "Problem with energy readings",
+      "description": "Some readings are not being updated correctly.",
+      "status": "OPEN",
+      "priority": "HIGH",
+      "createdAt": "2026-05-12"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "subject": "Question about Professional plan",
+      "description": "User asked about CSV export and advanced analytics.",
+      "status": "RESOLVED",
+      "priority": "MEDIUM",
+      "createdAt": "2026-05-08"
+    }
+  ],
+  "maintenanceTickets": [
+    {
+      "id": 1,
+      "deviceId": 6,
+      "title": "Coffee machine plug inspection",
+      "description": "Device reported high consumption peaks.",
+      "status": "PENDING",
+      "scheduledAt": "2026-05-20"
+    },
+    {
+      "id": 2,
+      "deviceId": 13,
+      "title": "Water heater plug maintenance",
+      "description": "High power consumption requires preventive maintenance.",
+      "status": "IN_PROGRESS",
+      "scheduledAt": "2026-05-22"
+    }
+  ]
 }
