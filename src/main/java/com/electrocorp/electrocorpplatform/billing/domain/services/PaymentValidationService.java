@@ -25,6 +25,6 @@ public class PaymentValidationService {
     }
 
     public boolean isValidCvv(String cvv) {
-        return cvv != null && cvv.trim().matches("\\d{3,4}");
+        return cvv != null && cvv.trim().matches("\\d{3}");
     }
 }
