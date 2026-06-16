@@ -2,12 +2,17 @@ package com.electrocorp.electrocorpplatform.billing.interfaces.rest.resources;
 
 import com.electrocorp.electrocorpplatform.billing.domain.model.aggregates.Subscription;
 
+import java.time.LocalDate;
+
 public record SubscriptionResource(
         Long id,
         Long userId,
         String planCode,
         String status,
-        boolean active
+        boolean active,
+        LocalDate startDate,
+        LocalDate nextBillingDate,
+        LocalDate endDate
 ) {
     public static SubscriptionResource from(Subscription subscription) {
         return new SubscriptionResource(
@@ -15,7 +20,18 @@ public record SubscriptionResource(
                 subscription.getUserId(),
                 subscription.getPlan().getCode(),
                 subscription.getStatus().name(),
-                subscription.isActive()
+                subscription.isActive(),
+                subscription.getStartDate(),
+                nextBillingDateFor(subscription),
+                subscription.getEndDate()
         );
+    }
+
+    private static LocalDate nextBillingDateFor(Subscription subscription) {
+        if (!subscription.isActive() || subscription.getStartDate() == null) {
+            return null;
+        }
+
+        return subscription.getStartDate().plusMonths(1);
     }
 }
