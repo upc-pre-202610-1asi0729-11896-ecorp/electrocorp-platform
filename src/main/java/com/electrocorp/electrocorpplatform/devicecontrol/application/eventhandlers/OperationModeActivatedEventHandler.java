@@ -32,8 +32,6 @@ public class OperationModeActivatedEventHandler {
                 event.evidence(),
                 event.explanation(),
                 event.recommendedAction(),
-                42,
-                null
         ));
     }
 }
