@@ -15,16 +15,7 @@ public class DevicePowerPolicyService {
 
     public String resolvePowerCategory(BigDecimal powerWatts) {
         if (powerWatts == null) {
-            return "UNKNOWN";
-        }
-
-        if (powerWatts.compareTo(BigDecimal.valueOf(100)) < 0) {
-            return "LOW";
-        }
-
-        if (powerWatts.compareTo(HIGH_POWER_THRESHOLD) < 0) {
-            return "MEDIUM";
-        }
+            return "UNKNOWN
 
         return "HIGH";
     }
