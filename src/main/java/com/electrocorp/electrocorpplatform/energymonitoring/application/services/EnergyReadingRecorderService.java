@@ -12,6 +12,7 @@ import com.electrocorp.electrocorpplatform.notifications.application.services.No
 import com.electrocorp.electrocorpplatform.notifications.domain.model.valueobjects.RuleScopeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -50,7 +51,7 @@ public class EnergyReadingRecorderService {
         }
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public EnergyReading recordActiveDeviceInterval(Device device) {
         if (device.getStatus() == null || device.getStatus() != DeviceStatus.ON) {
             return null;
@@ -63,7 +64,7 @@ public class EnergyReadingRecorderService {
         return recordUsageSince(device, state, now, true);
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public EnergyReading recordActiveDeviceIntervalIfDue(Device device, int minimumSeconds) {
         if (device.getStatus() == null || device.getStatus() != DeviceStatus.ON) {
             return null;

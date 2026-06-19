@@ -12,6 +12,8 @@ import com.electrocorp.electrocorpplatform.energymonitoring.interfaces.rest.reso
 import com.electrocorp.electrocorpplatform.notifications.domain.model.aggregates.Alert;
 import com.electrocorp.electrocorpplatform.notifications.domain.repositories.AlertRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EnergyMonitoringApplicationService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnergyMonitoringApplicationService.class);
 
     private static final BigDecimal TARIFF_PER_KWH = BigDecimal.valueOf(0.75);
     private final EnergyReadingFactory energyReadingFactory = new EnergyReadingFactory();
@@ -388,8 +392,16 @@ public class EnergyMonitoringApplicationService {
 
         devices.stream()
                 .filter(device -> device.getStatus() == DeviceStatus.ON)
-                .forEach(device -> energyReadingRecorderService.recordActiveDeviceIntervalIfDue(device, sampleSeconds));
+                .forEach(device -> recordDueActiveDeviceInterval(device, sampleSeconds));
 
         return devices;
+    }
+
+    private void recordDueActiveDeviceInterval(Device device, int sampleSeconds) {
+        try {
+            energyReadingRecorderService.recordActiveDeviceIntervalIfDue(device, sampleSeconds);
+        } catch (RuntimeException exception) {
+            LOGGER.warn("Could not record due energy reading for device {}", device.getId(), exception);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.electrocorp.electrocorpplatform.devicecontrol.interfaces.rest.resour
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 final class CsvIds {
     private CsvIds() {
@@ -15,7 +16,16 @@ final class CsvIds {
         return Arrays.stream(value.split(","))
                 .map(String::trim)
                 .filter(item -> !item.isBlank())
-                .map(Long::valueOf)
+                .map(CsvIds::parseLong)
+                .filter(Objects::nonNull)
                 .toList();
+    }
+
+    private static Long parseLong(String value) {
+        try {
+            return Long.valueOf(value);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
     }
 }
