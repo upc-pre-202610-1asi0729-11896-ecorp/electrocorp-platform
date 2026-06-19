@@ -1,8 +1,10 @@
 package com.electrocorp.electrocorpplatform.devicecontrol.interfaces.rest.resources;
 
 import com.electrocorp.electrocorpplatform.devicecontrol.domain.model.aggregates.OperationMode;
+import com.electrocorp.electrocorpplatform.devicecontrol.domain.model.entities.OperationModeRoutine;
 
 import java.util.List;
+import java.util.Objects;
 
 public record OperationModeResource(
         Long id,
@@ -40,7 +42,7 @@ public record OperationModeResource(
                 mode.getLocationId(),
                 mode.getName(),
                 mode.getDescription(),
-                mode.getStatus().name(),
+                mode.getStatus() == null ? "DRAFT" : mode.getStatus().name(),
                 CsvIds.parse(mode.getRoomIds()),
                 CsvIds.parse(mode.getGroupIds()),
                 CsvIds.parse(mode.getDeviceIds()),
@@ -51,7 +53,8 @@ public record OperationModeResource(
                 CsvIds.parse(mode.getRoutinesToEnableIds()),
                 CsvIds.parse(mode.getRoutinesToDisableIds()),
                 CsvIds.parse(mode.getGoalIds()),
-                mode.getInternalRoutines().stream()
+                safeInternalRoutines(mode).stream()
+                        .filter(OperationModeResource::hasRequiredRoutineFields)
                         .map(OperationModeRoutineResource::from)
                         .toList(),
                 mode.getAllDay(),
@@ -65,5 +68,17 @@ public record OperationModeResource(
                 mode.getPreserveCriticalSound(),
                 mode.getLastActivatedAt() == null ? null : mode.getLastActivatedAt().toString()
         );
+    }
+
+    private static List<OperationModeRoutine> safeInternalRoutines(OperationMode mode) {
+        return mode.getInternalRoutines() == null ? List.of() : mode.getInternalRoutines();
+    }
+
+    private static boolean hasRequiredRoutineFields(OperationModeRoutine routine) {
+        return routine != null &&
+                routine.getTargetType() != null &&
+                routine.getTargetId() != null &&
+                routine.getAction() != null &&
+                Objects.nonNull(routine.getTriggerTime());
     }
 }
