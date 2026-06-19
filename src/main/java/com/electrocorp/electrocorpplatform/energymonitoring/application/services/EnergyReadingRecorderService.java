@@ -71,8 +71,9 @@ public class EnergyReadingRecorderService {
         }
 
         LocalDateTime now = LocalDateTime.now();
+        int normalizedMinimumSeconds = Math.max(1, Math.min(MAX_SAMPLE_SECONDS, minimumSeconds));
         EnergyDeviceUsageState state = usageStateRepository.findByDeviceId(device.getId())
-                .orElseGet(() -> startUsage(device, now));
+                .orElseGet(() -> startUsage(device, now.minusSeconds(normalizedMinimumSeconds)));
         LocalDateTime lastRecordedAt = state.getLastRecordedAt() != null
                 ? state.getLastRecordedAt()
                 : state.getStartedAt();
@@ -82,7 +83,6 @@ public class EnergyReadingRecorderService {
         }
 
         long totalUsageSeconds = Math.max(0, Duration.between(lastRecordedAt, now).getSeconds());
-        int normalizedMinimumSeconds = Math.max(1, Math.min(MAX_SAMPLE_SECONDS, minimumSeconds));
 
         if (totalUsageSeconds < normalizedMinimumSeconds) {
             return null;
