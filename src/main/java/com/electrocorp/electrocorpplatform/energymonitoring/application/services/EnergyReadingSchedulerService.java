@@ -4,6 +4,8 @@ import com.electrocorp.electrocorpplatform.devicecontrol.domain.model.aggregates
 import com.electrocorp.electrocorpplatform.devicecontrol.domain.model.DeviceStatus;
 import com.electrocorp.electrocorpplatform.devicecontrol.domain.repositories.DeviceRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EnergyReadingSchedulerService implements SchedulingConfigurer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnergyReadingSchedulerService.class);
+
     private final DeviceRepository deviceRepository;
     private final EnergyReadingRecorderService recorderService;
     private final EnergySamplingSettingsService settingsService;
@@ -25,7 +29,13 @@ public class EnergyReadingSchedulerService implements SchedulingConfigurer {
                 .filter(device -> device.getStatus() == DeviceStatus.ON)
                 .toList();
 
-        activeDevices.forEach(recorderService::recordActiveDeviceInterval);
+        activeDevices.forEach(device -> {
+            try {
+                recorderService.recordActiveDeviceInterval(device);
+            } catch (RuntimeException exception) {
+                LOGGER.warn("Could not record scheduled energy reading for device {}", device.getId(), exception);
+            }
+        });
     }
 
     @Override
