@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -68,17 +70,15 @@ public class WorkplaceApplicationService {
     @Transactional(readOnly = true)
     public List<DeviceAssignment> getAssignments(Long userId, Long locationId) {
         getLocationForUser(locationId, userId);
-        return assignmentRepository.findByLocationId(locationId);
+        return getCurrentAssignmentsByUserId(userId)
+                .stream()
+                .filter(assignment -> assignment.getLocationId().equals(locationId))
+                .toList();
     }
 
     @Transactional(readOnly = true)
     public List<DeviceAssignment> getAssignmentsByUserId(Long userId) {
-        List<Long> locationIds = locationRepository.findByUserId(userId)
-                .stream()
-                .map(Location::getId)
-                .toList();
-
-        return locationIds.isEmpty() ? List.of() : assignmentRepository.findByLocationIdIn(locationIds);
+        return getCurrentAssignmentsByUserId(userId);
     }
 
     @Transactional(readOnly = true)
@@ -86,11 +86,9 @@ public class WorkplaceApplicationService {
         deviceRepository.findByIdAndUserId(deviceId, userId)
                 .orElseThrow(() -> new IllegalArgumentException("Device not found."));
 
-        return assignmentRepository.findByDeviceId(deviceId)
+        return getCurrentAssignmentsByUserId(userId)
                 .stream()
-                .filter(assignment -> locationRepository.findById(assignment.getLocationId())
-                        .map(location -> location.getUserId().equals(userId))
-                        .orElse(false))
+                .filter(assignment -> assignment.getDeviceId().equals(deviceId))
                 .toList();
     }
 
@@ -234,5 +232,75 @@ public class WorkplaceApplicationService {
     private void syncDeviceRoom(Device device, Room room) {
         device.setRoom(room != null ? room.getName().trim() : "");
         deviceRepository.save(device);
+    }
+
+    private List<DeviceAssignment> getCurrentAssignmentsByUserId(Long userId) {
+        List<Long> locationIds = locationRepository.findByUserId(userId)
+                .stream()
+                .map(Location::getId)
+                .toList();
+
+        if (locationIds.isEmpty()) {
+            return List.of();
+        }
+
+        return currentAssignments(assignmentRepository.findByLocationIdIn(locationIds));
+    }
+
+    private List<DeviceAssignment> currentAssignments(List<DeviceAssignment> assignments) {
+        Map<Long, DeviceAssignment> currentByDeviceId = new LinkedHashMap<>();
+
+        for (DeviceAssignment assignment : assignments) {
+            if (assignment.getDeviceId() == null) {
+                continue;
+            }
+
+            DeviceAssignment current = currentByDeviceId.get(assignment.getDeviceId());
+
+            if (current == null || isNewerAssignment(assignment, current)) {
+                currentByDeviceId.put(assignment.getDeviceId(), assignment);
+            }
+        }
+
+        return currentByDeviceId.values()
+                .stream()
+                .sorted(this::compareAssignmentsNewestFirst)
+                .toList();
+    }
+
+    private int compareAssignmentsNewestFirst(DeviceAssignment first, DeviceAssignment second) {
+        if (isNewerAssignment(first, second)) {
+            return -1;
+        }
+
+        if (isNewerAssignment(second, first)) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    private boolean isNewerAssignment(DeviceAssignment candidate, DeviceAssignment current) {
+        LocalDateTime candidateAssignedAt = candidate.getAssignedAt();
+        LocalDateTime currentAssignedAt = current.getAssignedAt();
+
+        if (candidateAssignedAt == null && currentAssignedAt == null) {
+            return assignmentId(candidate) > assignmentId(current);
+        }
+
+        if (candidateAssignedAt == null) {
+            return false;
+        }
+
+        if (currentAssignedAt == null) {
+            return true;
+        }
+
+        int compared = candidateAssignedAt.compareTo(currentAssignedAt);
+        return compared > 0 || (compared == 0 && assignmentId(candidate) > assignmentId(current));
+    }
+
+    private long assignmentId(DeviceAssignment assignment) {
+        return assignment.getId() == null ? 0L : assignment.getId();
     }
 }
