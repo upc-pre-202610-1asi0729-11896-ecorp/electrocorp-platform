@@ -3,6 +3,7 @@ package com.electrocorp.electrocorpplatform.workplace.application.services;
 import com.electrocorp.electrocorpplatform.workplace.domain.model.commands.AssignDeviceCommand;
 import com.electrocorp.electrocorpplatform.workplace.domain.model.commands.CreateLocationCommand;
 import com.electrocorp.electrocorpplatform.workplace.domain.model.commands.CreateRoomCommand;
+import com.electrocorp.electrocorpplatform.devicecontrol.domain.model.aggregates.Device;
 import com.electrocorp.electrocorpplatform.devicecontrol.domain.repositories.DeviceRepository;
 import com.electrocorp.electrocorpplatform.workplace.domain.model.aggregates.*;
 import com.electrocorp.electrocorpplatform.workplace.domain.repositories.*;
@@ -96,10 +97,10 @@ public class WorkplaceApplicationService {
     @Transactional
     public DeviceAssignment assignDevice(Long userId, AssignDeviceCommand command) {
         getLocationForUser(command.locationId(), userId);
-        deviceRepository.findByIdAndUserId(command.deviceId(), userId)
+        Device device = deviceRepository.findByIdAndUserId(command.deviceId(), userId)
                 .orElseThrow(() -> new IllegalArgumentException("Device not found."));
 
-        validateRoomBelongsToLocation(command.roomId(), command.locationId());
+        Room room = getRoomForLocation(command.roomId(), command.locationId());
 
         if (!assignmentRepository.findByDeviceId(command.deviceId()).isEmpty()) {
             throw new IllegalArgumentException("Device is already assigned.");
@@ -110,7 +111,9 @@ public class WorkplaceApplicationService {
         assignment.setRoomId(command.roomId());
         assignment.setLocationId(command.locationId());
         assignment.setAssignedAt(LocalDateTime.now());
-        return assignmentRepository.save(assignment);
+        DeviceAssignment savedAssignment = assignmentRepository.save(assignment);
+        syncDeviceRoom(device, room);
+        return savedAssignment;
     }
 
     @Transactional
@@ -144,7 +147,15 @@ public class WorkplaceApplicationService {
         if (name != null && !name.isBlank()) room.setName(name.trim());
         if (floor != null) room.setFloor(floor.trim());
 
-        return roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room);
+        assignmentRepository.findByRoomId(savedRoom.getId())
+                .forEach(assignment -> {
+                    assignment.setLocationId(savedRoom.getLocationId());
+                    assignmentRepository.save(assignment);
+                    syncDeviceRoom(assignment.getDeviceId(), userId, savedRoom);
+                });
+
+        return savedRoom;
     }
 
     @Transactional
@@ -157,6 +168,7 @@ public class WorkplaceApplicationService {
         assignmentRepository.findByRoomId(roomId)
                 .forEach(assignment -> {
                     assignment.setRoomId(null);
+                    syncDeviceRoom(assignment.getDeviceId(), userId, null);
                     assignmentRepository.save(assignment);
                 });
 
@@ -175,10 +187,13 @@ public class WorkplaceApplicationService {
             assignment.setLocationId(locationId);
         }
 
-        validateRoomBelongsToLocation(roomId, targetLocationId);
+        Room room = getRoomForLocation(roomId, targetLocationId);
         assignment.setRoomId(roomId);
+        assignment.setAssignedAt(LocalDateTime.now());
 
-        return assignmentRepository.save(assignment);
+        DeviceAssignment savedAssignment = assignmentRepository.save(assignment);
+        syncDeviceRoom(assignment.getDeviceId(), userId, room);
+        return savedAssignment;
     }
 
     @Transactional
@@ -186,6 +201,7 @@ public class WorkplaceApplicationService {
         DeviceAssignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Device assignment not found."));
         getLocationForUser(assignment.getLocationId(), userId);
+        syncDeviceRoom(assignment.getDeviceId(), userId, null);
         assignmentRepository.delete(assignment);
     }
 
@@ -195,9 +211,9 @@ public class WorkplaceApplicationService {
                 .orElseThrow(() -> new IllegalArgumentException("Location does not belong to current user."));
     }
 
-    private void validateRoomBelongsToLocation(Long roomId, Long locationId) {
+    private Room getRoomForLocation(Long roomId, Long locationId) {
         if (roomId == null) {
-            return;
+            return null;
         }
 
         Room room = roomRepository.findById(roomId)
@@ -206,5 +222,17 @@ public class WorkplaceApplicationService {
         if (!room.getLocationId().equals(locationId)) {
             throw new IllegalArgumentException("Room does not belong to the selected location.");
         }
+
+        return room;
+    }
+
+    private void syncDeviceRoom(Long deviceId, Long userId, Room room) {
+        deviceRepository.findByIdAndUserId(deviceId, userId)
+                .ifPresent(device -> syncDeviceRoom(device, room));
+    }
+
+    private void syncDeviceRoom(Device device, Room room) {
+        device.setRoom(room != null ? room.getName().trim() : "");
+        deviceRepository.save(device);
     }
 }
